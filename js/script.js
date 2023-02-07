@@ -83,12 +83,8 @@ function validateConfirmPassword() {
 }
 
 function validateForm() {
-  var first_name = document.forms["signupForm"]["first_name"].value;
-  var last_name = document.forms["signupForm"]["last_name"].value;
   var email = document.forms["signupForm"]["email"].value;
-  var dob = document.forms["signupForm"]["dob"].value;
   var password = document.forms["signupForm"]["password"].value;
-  var confirm_password = document.forms["signupForm"]["confirm_password"].value;
   validateFirstName();
   validateLastName();
   validateEmail();

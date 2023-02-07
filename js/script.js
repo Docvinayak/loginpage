@@ -1,12 +1,12 @@
 var users = [];
 
 function validateFirstName() {
-    var fname = document.signupForm.fname.value;
-    var errorMessage = document.getElementById("fname-error");
+    var first_name = document.signupForm.first_name.value;
+    var errorMessage = document.getElementById("first_name-error");
     
-    if (fname === "") {
+    if (first_name === "") {
         errorMessage.innerHTML = "First name is required";
-    } else if (!/^[a-zA-Z]+$/.test(fname)) {
+    } else if (!/^[a-zA-Z]+$/.test(first_name)) {
         errorMessage.innerHTML = "First name should contain only letters";
     } else {
         errorMessage.innerHTML = "";
@@ -14,12 +14,12 @@ function validateFirstName() {
 }
 
 function validateLastName() {
-    var lname = document.signupForm.lname.value;
-    var errorMessage = document.getElementById("lname-error");
+    var last_name = document.signupForm.last_name.value;
+    var errorMessage = document.getElementById("last_name-error");
     
-    if (lname === "") {
+    if (last_name === "") {
         errorMessage.innerHTML = "Last name is required";
-    } else if (!/^[a-zA-Z]+$/.test(lname)) {
+    } else if (!/^[a-zA-Z]+$/.test(last_name)) {
         errorMessage.innerHTML = "Last name should contain only letters";
     } else {
         errorMessage.innerHTML = "";
@@ -54,17 +54,17 @@ function validatePassword() {
 }
 
 function validateDOB() {
-    var dob = document.signupForm.dob.value;
     var errorMessage = document.getElementById("dob-error");
-
-    var pattern = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}$/;
-
+    var dob = new Date(document.signupForm.dob.value);
+    var age = new Date().getFullYear() - dob.getFullYear();
+    var errorMessage = document.getElementById("dob-error");
+    
     if (dob === "") {
         errorMessage.innerHTML = "Date of Birth is required";
-    } else if (!pattern.test(dob)) {
-        errorMessage.innerHTML = "Date of Birth should be in the format dd-mm-yyyy";
+    } else if (age < 18) {
+      errorMessage.innerHTML = "You must be at least 18 years old";
     } else {
-        errorMessage.innerHTML = "";
+      errorMessage.innerHTML = "";
     }
 }
 
@@ -83,8 +83,8 @@ function validateConfirmPassword() {
 }
 
 function validateForm() {
-  var fname = document.forms["signupForm"]["fname"].value;
-  var lname = document.forms["signupForm"]["lname"].value;
+  var first_name = document.forms["signupForm"]["first_name"].value;
+  var last_name = document.forms["signupForm"]["last_name"].value;
   var email = document.forms["signupForm"]["email"].value;
   var dob = document.forms["signupForm"]["dob"].value;
   var password = document.forms["signupForm"]["password"].value;
@@ -96,22 +96,23 @@ function validateForm() {
   validatePassword();
   validateConfirmPassword();
 
-  // Check if the email already exists
+  var users = JSON.parse(localStorage.getItem("users")) || [];
+  
   for (var i = 0; i < users.length; i++) {
     if (users[i].email === email) {
-      alert("User with this email already exists");
-      return false;
+        alert("User with this email already exists");
+        return false;
     }
   }
-  // Store the user data
+  
   var user = {
-    fname: fname,
-    lname: lname,
     email: email,
-    dob: dob,
-    password: password,
+    password: password
   };
   users.push(user);
+
+  // Store the user in local storage
+  localStorage.setItem('users', JSON.stringify(users));
 
   // Show the success message
   alert("Signup successful");

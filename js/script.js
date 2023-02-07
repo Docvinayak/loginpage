@@ -10,6 +10,7 @@ function validateFirstName() {
         errorMessage.innerHTML = "First name should contain only letters";
     } else {
         errorMessage.innerHTML = "";
+        return true;
     }
 }
 
@@ -23,6 +24,7 @@ function validateLastName() {
         errorMessage.innerHTML = "Last name should contain only letters";
     } else {
         errorMessage.innerHTML = "";
+        return true;
     }
 }
 
@@ -36,6 +38,7 @@ function validateEmail() {
     errorMessage.innerHTML = "Email is invalid";
     } else {
     errorMessage.innerHTML = "";
+    return true;
     }
     }
     
@@ -50,6 +53,7 @@ function validatePassword() {
         errorMessage.innerHTML = "Password should contain at least 1 uppercase letter, 1 symbol, and 1 number";
     } else {
         errorMessage.innerHTML = "";
+        return true;
     }
 }
 
@@ -65,6 +69,7 @@ function validateDOB() {
       errorMessage.innerHTML = "You must be at least 18 years old";
     } else {
       errorMessage.innerHTML = "";
+      return true;
     }
 }
 
@@ -79,19 +84,14 @@ function validateConfirmPassword() {
         errorMessage.innerHTML = "Confirm password should match with password";
     } else {
         errorMessage.innerHTML = "";
+        return true;
     }
 }
 
 function validateForm() {
   var email = document.forms["signupForm"]["email"].value;
   var password = document.forms["signupForm"]["password"].value;
-  validateFirstName();
-  validateLastName();
-  validateEmail();
-  validateDOB();
-  validatePassword();
-  validateConfirmPassword();
-
+  if (validateFirstName() && validateLastName() && validateEmail() && validatePassword() && validateDOB && validateConfirmPassword){
   var users = JSON.parse(localStorage.getItem("users")) || [];
   
   for (var i = 0; i < users.length; i++) {
@@ -111,7 +111,8 @@ function validateForm() {
   localStorage.setItem('users', JSON.stringify(users));
 
   // Show the success message
-  alert("Signup successful");
+  alert("Signup successful");} else{
+    return false;
+  }
 
-  return false;
 }
